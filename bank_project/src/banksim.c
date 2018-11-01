@@ -44,11 +44,11 @@ int main (int argc, char *argv[]) {
   int bank_in_fd[atm_count];
 
   // TODO: ATM PROCESS FORKING
-
+///Testing
 
   // TODO: BANK PROCESS FORKING
 
-  
+
   // Wait for each of the child processes to complete. We include
   // atm_count to include the bank process (i.e., this is not a
   // fence post error!)
@@ -58,4 +58,3 @@ int main (int argc, char *argv[]) {
 
   return 0;
 }
-
