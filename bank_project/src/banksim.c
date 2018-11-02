@@ -44,10 +44,7 @@ int main (int argc, char *argv[]) {
   int bank_in_fd[atm_count];
 
   // TODO: ATM PROCESS FORKING
-<<<<<<< HEAD
-=======
 
->>>>>>> 24a3c896b91f64326fbc38d918780542c9903b77
 
   // TODO: BANK PROCESS FORKING
 
