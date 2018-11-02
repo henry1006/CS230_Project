@@ -78,6 +78,7 @@ int atm(int bank_out_fd, int atm_in_fd, int atm_id, Command *cmd)
   int status = SUCCESS;
 
   // TODO: your code here
+  //blahblahblah
 
   return status;
 }
@@ -131,4 +132,3 @@ int atm_run(const char *trace, int bank_out_fd, int atm_in_fd, int atm_id)
 
   return SUCCESS;
 }
-
