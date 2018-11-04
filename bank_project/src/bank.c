@@ -158,6 +158,89 @@ int bank(int atm_out_fd[], Command *cmd, int *atms_remaining)
   int result = SUCCESS;
 
   // TODO: your code here
+  if(check_valid_atm(i) != SUCCESS){
+    return ERR_UNKNOWN_ATM;
+  }
+
+  if(c == CONNECT){
+    MSG_OK(&bankcmd, 0, f, t, a);
+    result = checked_write(atm_out_fd[i], &bankcmd, i);
+  }
+
+  if(c == EXIT){
+    atms_remaining--;
+    MSG_OK(&bankcmd, 0, f, t, a);
+    result = checked_write(atm_out_fd[i], &bankcmd, i);
+  }
+
+  if (c == DEPOSIT){
+    if(check_valid_account(t) != SUCCESS){
+      MSG_ACCUNKN(&bankcmd, 0, t);
+      result = checked_write(atm_out_fd[i], &bankcmd, i);
+    }
+    else{
+      accounts[t] += a;
+      MSG_OK(&bankcmd, 0, f, t, a);
+      result = checked_write(atm_out_fd[i], &bankcmd, i);
+    }
+  }
+
+  if(c == WITHDRAW){
+    if(check_valid_account(f) != SUCCESS){
+      MSG_ACCUNKN(&bankcmd, 0, f);
+      result = checked_write(atm_out_fd[i], &bankcmd, i);
+    }
+    else{
+      if(accounts[f] >= a){
+        accounts[f] -= a;
+        MSG_OK(&bankcmd, 0, f, t, a);
+        result = checked_write(atm_out_fd[i], &bankcmd, i);
+      }
+      else{
+        MSG_NOFUNDS(&bankcmd, i, f, a);
+        result = checked_write(atm_out_fd[i], &bankcmd, i);
+      }
+    }
+  }
+
+  if(c == TRANSFER){
+    if(check_valid_account(t) != SUCCESS){
+      MSG_ACCUNKN(&bankcmd, 0, t);
+      result = checked_write(atm_out_fd[i], &bankcmd, i);
+    }
+    else if(check_valid_account(f) != SUCCESS){
+      MSG_ACCUNKN(&bankcmd, 0, f);
+      result = checked_write(atm_out_fd[i], &bankcmd, i);
+    }
+    else{
+      if(accounts[f] >= a){
+        accounts[f] -= a;
+        accounts[t] += a;
+        MSG_OK(&bankcmd, 0, f, t, a);
+        result = checked_write(atm_out_fd[i], &bankcmd, i);
+      }
+      else{
+        MSG_NOFUNDS(&bankcmd, i, f, a);
+        result = checked_write(atm_out_fd[i], &bankcmd, i);
+      }
+    }
+  }
+
+  if(c == BALANCE){
+    if(check_valid_account(f) != SUCCESS){
+      MSG_ACCUNKN(&bankcmd, 0, f);
+      result = checked_write(atm_out_fd[i], &bankcmd, i);
+    }
+    else{
+      a = accounts[f];
+      MSG_OK(&bankcmd, 0, f, t, a);
+      result = checked_write(atm_out_fd[i], &bankcmd, i);
+    }
+  }
+  else{ //if command does not match anything listed above
+    error_msg(2, "ERR_UNKNOWN_CMD");
+    result = ERR_UNKNOWN_CMD;
+  }
 
 
   return result;
@@ -274,4 +357,3 @@ int run_bank(int bank_in_fd[], int atm_out_fd[])
 
   return SUCCESS;
 }
-
