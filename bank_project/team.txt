@@ -1,7 +1,15 @@
 Name:
+Duy Nguyen
 
 Name(s) of teammates:
+Henry Cheung
 
 Contributions of each team member:
+Duy - ATM.c, Bank.c, Debug
+Henry - Banksim.c, Debug, github setup
 
 What made this team successful or unsuccessful (tools/apps, communication, etc.)?
+This group was successful in using atom with github to easily share codes. The use of comments helped during the debugging
+process so the debugger can keep track of what is happening and other references that is used.
+We also use other forms of communication (email and sms) if needed. This group did ran into issues when compiling, assuming
+it is related to using github.
