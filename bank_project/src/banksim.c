@@ -67,7 +67,16 @@ int main (int argc, char *argv[]) {
   }
 
   // TODO: BANK PROCESS FORKING
-  
+  if (fork() == 0){
+    bank_open(atm_count, account_count);
+    int runResult = run_bank(bank_in_fd, atm_out_fd);
+    if (runResult != SUCCESS){
+      error_print();
+      bank_dump();
+      bank_close();
+      exit(0);
+    }
+  }
 
   // Wait for each of the child processes to complete. We include
   // atm_count to include the bank process (i.e., this is not a
