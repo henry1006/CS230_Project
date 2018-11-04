@@ -85,7 +85,7 @@ int atm(int bank_out_fd, int atm_in_fd, int atm_id, Command *cmd)
   if(status == SUCCESS){
     status = checked_read(atm_in_fd, &atmcmd, MESSAGE_SIZE);
     if(status == SUCCESS){
-      cmd_unpack(cmd, &c, &i, &f, &t, &a);                         //MIGHT ERROR!!! (cmd)
+      cmd_unpack(&atmcmd, &c, &i, &f, &t, &a);                         //MIGHT ERROR!!! (cmd)
       if(c == OK){
         status = SUCCESS;
       }
