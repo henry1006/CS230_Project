@@ -45,24 +45,26 @@ int main (int argc, char *argv[]) {
 
   // TODO: ATM PROCESS FORKING
   for (int i = 0; i < atm_count-1; i++){ //PARA 1
-    int atmfd[2];
-    atm_out_fd[i] = pipe(atmfd); //call ​pipe​ on array and store in the ith entry of ​atm_out_fd the to-the-ATM’s output file descriptor, ​to_atmfd[1]
+    int to_atmfd[2];
+    pipe(to_atmfd);
+    atm_out_fd[i] = to_atmfd[1]; //call ​pipe​ on array and store in the ith entry of ​atm_out_fd the to-the-ATM’s output file descriptor, ​to_atmfd[1]
     int to_bankfd[2];
-    if (pipe(to_bankfd)==0){
-      bank_in_fd[i] = to_bankfd[0]
-    }
+    pipe(to_bankfd);
+    //if (pipe(to_bankfd)==0){
+      bank_in_fd[i] = to_bankfd[0];
+    //}
     if (fork() == 0){ //PARA 2
-      close(atmfd[1]);
+      close(to_atmfd[1]);
       close(to_bankfd[0]);
-      int run = atm_run(result, to_bankfd, atmfd, i);
+      int run = atm_run(argv[i], to_bankfd[i], to_atmfd[i], i);
       if (run != SUCCESS){
         error_print();
         exit(0);
       }
     }
     else{ //Para 3
-      close(atmfd);
-      close(to_bankfd);
+      close(to_atmfd[0]); close(to_atmfd[1]);
+      close(to_bankfd[0]); close(to_bankfd[1]);
     }
   }
 

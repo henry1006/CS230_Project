@@ -103,8 +103,6 @@ int atm(int bank_out_fd, int atm_in_fd, int atm_id, Command *cmd)
     }
   }
 
-
-
   return status;
 }
 
