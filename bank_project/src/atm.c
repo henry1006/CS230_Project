@@ -78,7 +78,32 @@ int atm(int bank_out_fd, int atm_in_fd, int atm_id, Command *cmd)
   int status = SUCCESS;
 
   // TODO: your code here
-  //blahblahblah
+  if (i != atm_id){
+    return ERR_UNKNOWN_ATM;
+  }
+  status = checked_write(bank_out_fd, cmd, MESSAGE_SIZE);
+  if(status == SUCCESS){
+    status = checked_read(atm_in_fd, &atmcmd, MESSAGE_SIZE);
+    if(status == SUCCESS){
+      cmd_unpack(cmd, &c, &i, &f, &t, &a);                         //MIGHT ERROR!!! (cmd)
+      if(c == OK){
+        status = SUCCESS;
+      }
+      else if(c == NOFUNDS){
+        status = ERR_NOFUNDS;
+      }
+      else if(c == ACCUNKN){
+        status = ERR_UNKNOWN_ACCOUNT;
+      }
+      else{
+        //const char *emsg = ERR_UNKNOWN_CMD;
+        error_msg(2, "ERR_UNKNOWN_CMD");
+        status = ERR_UNKNOWN_CMD;
+      }
+    }
+  }
+
+
 
   return status;
 }
