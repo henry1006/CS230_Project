@@ -64,11 +64,10 @@ int main (int argc, char *argv[]) {
       close(atmfd);
       close(to_bankfd);
     }
-
   }
 
   // TODO: BANK PROCESS FORKING
-
+  
 
   // Wait for each of the child processes to complete. We include
   // atm_count to include the bank process (i.e., this is not a
