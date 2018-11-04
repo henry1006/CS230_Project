@@ -51,8 +51,8 @@ int main (int argc, char *argv[]) {
     int to_bankfd[2];
     pipe(to_bankfd);
     //if (pipe(to_bankfd)==0){
-      bank_in_fd[i] = to_bankfd[0];
-    //}
+    bank_in_fd[i] = to_bankfd[0];
+
     if (fork() == 0){ //PARA 2
       close(to_atmfd[1]);
       close(to_bankfd[0]);
